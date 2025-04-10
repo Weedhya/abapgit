@@ -13,7 +13,7 @@ variables:
   SONARQUBE_PROJECT_KEY: 'SAP_SONARQUBE'
   SONARQUBE_PROJECT_NAME: 'SAP ABAP Project'
   SONARQUBE_PROJECT_VERSION: '1.0'
-  SONARQUBE_TOKEN: $(sonarqubeToken)  # Store as secret in pipeline variables
+  SONARQUBE_TOKEN: 'sqp_e0c6a8126963e70e1071c4e1ee9c6c5b7446d354'  # Store as secret in pipeline variables
   SONARQUBE_HOST_URL: 'https://tools.vattenfall.nl/sonarqube/'  # Replace with actual server URL
 
 steps:
@@ -38,7 +38,7 @@ steps:
 
 # Step 3: Run SonarScanner for ABAP code
 - powershell: |
-    $sonarToken = "$(SONARQUBE_TOKEN)"
+    $sonarToken = 'sqp_e0c6a8126963e70e1071c4e1ee9c6c5b7446d354'
     $sonarHost = "$(SONARQUBE_HOST_URL)"
     sonar-scanner `
       -Dsonar.projectKey=$(SONARQUBE_PROJECT_KEY) `
