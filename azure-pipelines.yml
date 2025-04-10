@@ -19,7 +19,7 @@ variables:
 steps:
 
 # Step 1: Prepare SonarQube Analysis
-- task: SonarQubePrepare@5
+- task: SonarQubePrepare@6
   inputs:
     SonarQube: 'SAP_SONARQUBE'  # Replace with the name of your service connection
     scannerMode: 'CLI'
@@ -50,6 +50,6 @@ steps:
   displayName: 'Run SonarQube Analysis'
 
 # Step 4: Publish SonarQube Results
-- task: SonarQubePublish@5
+- task: SonarQubePublish@6
   inputs:
     pollingTimeoutSec: '300'
