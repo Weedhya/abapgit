@@ -1,0 +1,52 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main  # or your default branch name
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  SONARQUBE_PROJECT_KEY: 'SAP_SONARQUBE'
+  SONARQUBE_PROJECT_NAME: 'SAP ABAP Project'
+  SONARQUBE_PROJECT_VERSION: '1.0'
+  SONARQUBE_TOKEN: $(sonarqubeToken)  # Store as secret in pipeline variables
+  SONARQUBE_HOST_URL: 'https://tools.vattenfall.nl/sonarqube/'  # Replace with actual server URL
+
+steps:
+
+# Step 1: Prepare SonarQube Analysis
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'YourSonarQubeServiceConnection'  # Replace with the name of your service connection
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(SONARQUBE_PROJECT_KEY)'
+    cliProjectName: '$(SONARQUBE_PROJECT_NAME)'
+    cliProjectVersion: '$(SONARQUBE_PROJECT_VERSION)'
+
+# Step 2: Install SonarScanner CLI for Windows
+- powershell: |
+    Invoke-WebRequest -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-windows.zip" -OutFile "sonar-scanner.zip"
+    Expand-Archive -Path "sonar-scanner.zip" -DestinationPath "$(Build.SourcesDirectory)\sonar-scanner"
+    $scannerPath = "$(Build.SourcesDirectory)\sonar-scanner\sonar-scanner-5.0.1.3006-windows\bin"
+    Write-Host "##vso[task.setvariable variable=PATH]$scannerPath;$env:PATH"
+  displayName: 'Install SonarScanner CLI on Windows'
+
+# Step 3: Run SonarScanner for ABAP code
+- powershell: |
+    sonar-scanner `
+      -Dsonar.projectKey=$(SONARQUBE_PROJECT_KEY) `
+      -Dsonar.sources=. `
+      -Dsonar.language=abap `
+      -Dsonar.host.url=$(SONARQUBE_HOST_URL) `
+      -Dsonar.login=$(SONARQUBE_TOKEN)
+  displayName: 'Run SonarQube Analysis'
+
+# Step 4: Publish SonarQube Results
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
