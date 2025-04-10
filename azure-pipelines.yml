@@ -40,8 +40,9 @@ steps:
 - powershell: |
     $sonarToken = 'sqp_e0c6a8126963e70e1071c4e1ee9c6c5b7446d354'
     $sonarHost = "$(SONARQUBE_HOST_URL)"
+    $projectKey = "$(SONARQUBE_PROJECT_KEY)"
     sonar-scanner `
-      -Dsonar.projectKey=$(SONARQUBE_PROJECT_KEY) `
+      -Dsonar.projectKey=$projectKey `
       -Dsonar.sources=. `
       -Dsonar.language=abap `
       -Dsonar.host.url=$sonarHost `
