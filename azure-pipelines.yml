@@ -42,11 +42,11 @@ steps:
     $sonarHost = "$(SONARQUBE_HOST_URL)"
     $projectKey = "$(SONARQUBE_PROJECT_KEY)"
     sonar-scanner `
-      -Dsonar.projectKey=$projectKey `
-      -Dsonar.sources=. `
-      -Dsonar.language=abap `
-      -Dsonar.host.url=$sonarHost `
-      -Dsonar.login=$sonarToken
+      -D"sonar.projectKey=$projectKey" `
+      -D"sonar.sources=." `
+      -D"sonar.language=abap" `
+      -D"sonar.host.url=$sonarHost" `
+      -D"sonar.login=$sonarToken"
   displayName: 'Run SonarQube Analysis'
 
 # Step 4: Publish SonarQube Results
