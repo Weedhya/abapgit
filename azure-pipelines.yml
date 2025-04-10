@@ -38,7 +38,7 @@ steps:
 
 # Step 3: Run SonarScanner for ABAP code
 - powershell: |
-    $sonarToken = "$(sonarqubeToken)"
+    $sonarToken = "$(SONARQUBE_TOKEN)"
     $sonarHost = "$(SONARQUBE_HOST_URL)"
     sonar-scanner `
       -Dsonar.projectKey=$(SONARQUBE_PROJECT_KEY) `
