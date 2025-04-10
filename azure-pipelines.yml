@@ -21,7 +21,7 @@ steps:
 # Step 1: Prepare SonarQube Analysis
 - task: SonarQubePrepare@5
   inputs:
-    SonarQube: 'YourSonarQubeServiceConnection'  # Replace with the name of your service connection
+    SonarQube: 'SAP_SONARQUBE'  # Replace with the name of your service connection
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(SONARQUBE_PROJECT_KEY)'
