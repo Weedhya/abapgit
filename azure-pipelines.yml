@@ -38,12 +38,14 @@ steps:
 
 # Step 3: Run SonarScanner for ABAP code
 - powershell: |
+    $sonarToken = "$(sonarqubeToken)"
+    $sonarHost = "$(SONARQUBE_HOST_URL)"
     sonar-scanner `
       -Dsonar.projectKey=$(SONARQUBE_PROJECT_KEY) `
       -Dsonar.sources=. `
       -Dsonar.language=abap `
-      -Dsonar.host.url=$(SONARQUBE_HOST_URL) `
-      -Dsonar.login=$(SONARQUBE_TOKEN)
+      -Dsonar.host.url=$sonarHost `
+      -Dsonar.login=$sonarToken
   displayName: 'Run SonarQube Analysis'
 
 # Step 4: Publish SonarQube Results
